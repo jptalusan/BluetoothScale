@@ -12,6 +12,8 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.TextView;
 
@@ -36,6 +38,7 @@ public class DeviceControlActivity extends AppCompatActivity {
 	private boolean mConnected = false;
 	private BluetoothGattCharacteristic mNotifyCharacteristic;
 	private TextView weightTV;
+	private Button rescan;
 
 	private final String LIST_NAME = "NAME";
 	private final String LIST_UUID = "UUID";
@@ -116,6 +119,14 @@ public class DeviceControlActivity extends AppCompatActivity {
 		mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
 		weightTV = (TextView) findViewById(R.id.weight);
+		rescan = (Button) findViewById(R.id.rescan);
+
+		rescan.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				finish();
+			}
+		});
 
 		Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
 		bindService(gattServiceIntent, mServiceConnection, BIND_AUTO_CREATE);

@@ -37,9 +37,6 @@ public class MainActivity extends AppCompatActivity {
 			finish();
 		}
 
-
-		BluetoothManager mBluetoothManager = (BluetoothManager)getSystemService(Context.BLUETOOTH_SERVICE);
-
 		mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
 		if (null == mBluetoothAdapter) {
 			//Device does not support Bluetooth
@@ -73,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		// Ensures Bluetooth is enabled on the device.  If Bluetooth is not currently enabled,
 		// fire an intent to display a dialog asking the user to grant permission to enable it.
 		if (!mBluetoothAdapter.isEnabled()) {
@@ -82,10 +78,6 @@ public class MainActivity extends AppCompatActivity {
 				startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
 			}
 		}
-
-		// Initializes list view adapter.
-//		mLeDeviceListAdapter = new LeDeviceListAdapter();
-//		setListAdapter(mLeDeviceListAdapter);
 		scanLeDevice(true);
 	}
 
@@ -126,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
 					runOnUiThread(new Runnable() {
 						@Override
 						public void run() {
+							//Checks if the device detected is the electronic scale
 							if (device == null) return;
 							if (device.getName().toLowerCase().contains("scale")) {
 								final Intent intent = new Intent(MainActivity.this, DeviceControlActivity.class);
@@ -141,9 +134,6 @@ public class MainActivity extends AppCompatActivity {
 							} else {
 								Toast.makeText(MainActivity.this, "No electronic scale present.", Toast.LENGTH_SHORT).show();
 							}
-//							mLeDeviceListAdapter.addDevice(device);
-//							mLeDeviceListAdapter.notifyDataSetChanged();
-
 						}
 					});
 				}
